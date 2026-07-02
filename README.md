@@ -11,6 +11,10 @@
 - 任务成功时自动下载 PDF，并作为当前 Zotero 条目的子附件导入。
 - 任务仍在人工查找中时，为条目添加 `fetching PDF` 标签；再次点击菜单时只检查已有任务，不重复提交。
 
+## 前置条件
+
+拥有聚联医疗（https://jlyl.jlss.vip/jss）的机构认证账号，可享受其文献传递等服务。
+
 ## 下载安装
 
 从 GitHub Release 下载最新版本的 `pdf-fetcher.xpi`：
