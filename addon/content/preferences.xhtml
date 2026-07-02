@@ -1,0 +1,35 @@
+<vbox
+  id="pdf-fetcher-preferences"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  onload="Zotero.__addonInstance__.hooks.onPrefsLoad(event)"
+>
+  <groupbox>
+    <label><html:h2>pdf-fetcher</html:h2></label>
+    <description>聚联医疗接口地址固定为 https://api.jlss.vip。Zotero 插件不会自动继承浏览器登录状态，需要填入网站 token。</description>
+  </groupbox>
+
+  <groupbox>
+    <label value="Token 获取方法"/>
+    <description>1. 在浏览器登录聚联医疗网站。</description>
+    <description>2. 打开浏览器开发者工具，进入 Application/应用 -> Local Storage。</description>
+    <description>3. 选择 jlyl.jlss.vip 或 jlss.vip 相关站点，复制名为 token 的值。不包括两边引号，只保留数字和字母。</description>
+    <description>4. 回到这里直接粘贴到 Token 输入框，然后保存。</description>
+  </groupbox>
+
+  <groupbox>
+    <label value="Token"/>
+    <html:input
+      id="pdf-fetcher-token"
+      type="text"
+      preference="__prefsPrefix__.token"
+      style="width: 100%;"
+    ></html:input>
+
+    <hbox style="gap: 8px; margin-top: 8px;">
+      <button id="pdf-fetcher-open-site" label="打开聚联医疗网站"/>
+      <button id="pdf-fetcher-save" label="保存设置"/>
+      <button id="pdf-fetcher-clear-token" label="清除 Token"/>
+    </hbox>
+  </groupbox>
+</vbox>
