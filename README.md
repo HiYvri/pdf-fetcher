@@ -13,7 +13,7 @@
 
 ## 前置条件
 
-拥有聚联医疗 https://jlyl.jlss.vip/jss 的机构认证账号，可享受其文献传递等服务。
+拥有聚联医疗 [https://jlyl.jlss.vip/jss](https://jlyl.jlss.vip/jss/#/index) 的机构认证账号，可享受其文献传递等服务。
 
 ## 下载安装
 
