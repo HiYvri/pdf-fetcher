@@ -1,6 +1,6 @@
 # pdf-fetcher
 
-`pdf-fetcher` 是一个面向 Zotero 9 的文献原文获取插件。插件依托聚联医疗/JLSS 服务提交文献查询任务，并在任务成功后把 PDF 原文导入为 Zotero 条目的附件。
+`pdf-fetcher` 是一个面向 Zotero 的文献原文获取插件。插件依托聚联医疗/JLSS 服务提交文献查询任务，并在任务成功后把 PDF 原文导入为 Zotero 条目的附件。
 
 ## 主要功能
 
