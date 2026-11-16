@@ -1,4 +1,5 @@
 import { config } from "../../package.json";
+import { tokenPref } from "../utils/preferences";
 import { PdfFetcher } from "./PdfFetcher";
 
 type MenuRegistration = {
@@ -37,8 +38,8 @@ export class Common {
     menuitem.setAttribute("class", "menuitem-iconic");
     menuitem.addEventListener("command", () => {
       const items = this.getSelectedItems(win);
-      PdfFetcher.submitSelectedItems(items).catch((error) => {
-        ztoolkit.log("pdf-fetcher submit failed", error);
+      PdfFetcher.submitSelectedItems(items).catch(() => {
+        ztoolkit.log("pdf-fetcher: manual fetch failed");
       });
     });
 
@@ -115,7 +116,6 @@ export class Common {
   }
 
   private static openSettingsPrompt(win: Window) {
-    const tokenPref = "extensions.zotero.pdfFetcher.token";
     const currentToken = String(Zotero.Prefs.get(tokenPref) || "");
     const value = { value: currentToken };
     const ok = Services.prompt.prompt(

@@ -1,3 +1,4 @@
+import { AutoFetch } from "./modules/AutoFetch";
 import { Common } from "./modules/Common";
 import { Preferences } from "./modules/Preferences";
 import { createZToolkit } from "./utils/ztoolkit";
@@ -9,6 +10,10 @@ async function onStartup() {
     Zotero.uiReadyPromise
   ]);
 
+  if (!addon.data.alive) {
+    return;
+  }
+  AutoFetch.start();
   await Promise.all(Zotero.getMainWindows().map((win) => onMainWindowLoad(win)));
 
   addon.data.initialized = true;
@@ -18,17 +23,20 @@ async function onStartup() {
 async function onMainWindowLoad(win: _ZoteroTypes.MainWindow): Promise<void> {
   addon.data.ztoolkit = createZToolkit();
   Common.registerRightClickMenuItem(win);
+  AutoFetch.registerWindow(win);
 }
 
 async function onMainWindowUnload(win: Window): Promise<void> {
+  AutoFetch.unregisterWindow(win);
   Common.unregisterWindow(win);
   ztoolkit.unregisterAll();
 }
 
 async function onShutdown(): Promise<void> {
+  addon.data.alive = false;
+  AutoFetch.stop();
   Common.unregisterAll();
   ztoolkit.unregisterAll();
-  addon.data.alive = false;
   delete (Zotero as typeof Zotero & Record<string, unknown>)[addon.data.config.addonInstance];
 }
 

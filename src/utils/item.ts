@@ -1,3 +1,29 @@
+export type ItemRef = Pick<Zotero.Item, "id" | "libraryID" | "key">;
+
+export function itemRef({ id, libraryID, key }: Zotero.Item): ItemRef {
+  return { id, libraryID, key };
+}
+
+export function writableItem(ref: ItemRef) {
+  if (!Zotero.Items.exists(ref.id)) {
+    return;
+  }
+  const item = Zotero.Items.get(ref.id);
+  if (!item || item.libraryID !== ref.libraryID || item.key !== ref.key
+    || item.deleted || !item.isRegularItem() || !item.isTopLevelItem()) {
+    return;
+  }
+  const library = Zotero.Libraries.get(item.libraryID);
+  if (library && library.editable && library.filesEditable) {
+    return item;
+  }
+}
+
+export function hasPDF(item: Zotero.Item) {
+  // The attachment record is enough, even if its file hasn't synced yet.
+  return Zotero.Items.get(item.getAttachments()).some((attachment) => attachment.isPDFAttachment());
+}
+
 export type ItemMetadata = {
   itemID: number;
   libraryID: number;

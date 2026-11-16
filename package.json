@@ -1,6 +1,6 @@
 {
   "name": "pdf-fetcher",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "description": "Fetch PDFs from JLYL services and attach them to Zotero items.",
@@ -23,6 +23,7 @@
     "lint:check": "prettier --check . && eslint .",
     "lint:fix": "prettier --write . && eslint . --fix",
     "release": "zotero-plugin release",
+    "test:unit": "node --test tests/auto-fetch.test.mjs",
     "test": "zotero-plugin test"
   },
   "dependencies": {

@@ -1,4 +1,5 @@
-const tokenPref = "extensions.zotero.pdfFetcher.token";
+import { homepage } from "../../package.json";
+import { autoFetchPref, tokenPref } from "../utils/preferences";
 
 export class Preferences {
   private static lastActionAt = 0;
@@ -11,6 +12,26 @@ export class Preferences {
     }
 
     tokenInput.value = String(Zotero.Prefs.get(tokenPref) || "");
+
+    const autoFetch = doc.getElementById("pdf-fetcher-auto-fetch") as HTMLInputElement | null;
+    if (autoFetch) {
+      autoFetch.checked = Zotero.Prefs.get(autoFetchPref, true) === true;
+      if (!autoFetch.hasAttribute("data-pdf-fetcher-bound")) {
+        autoFetch.setAttribute("data-pdf-fetcher-bound", "true");
+        autoFetch.addEventListener("change", () => {
+          Zotero.Prefs.set(autoFetchPref, autoFetch.checked, true);
+        });
+      }
+    }
+
+    const projectLink = doc.getElementById("pdf-fetcher-project");
+    if (projectLink && !projectLink.hasAttribute("data-pdf-fetcher-bound")) {
+      projectLink.setAttribute("data-pdf-fetcher-bound", "true");
+      projectLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        Zotero.launchURL(homepage);
+      });
+    }
 
     this.bind(doc, "pdf-fetcher-open-site", () => {
       Zotero.launchURL("https://jlyl.jlss.vip");

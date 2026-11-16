@@ -5,19 +5,26 @@
 ## 主要功能
 
 - 在 Zotero 条目右键菜单中添加 `通过聚联医疗获取原文`。
-- 在 Zotero 设置页中提供 `pdf-fetcher` 设置面板，用于保存聚联医疗 token。
+- 在 Zotero 设置页中提供 `pdf-fetcher` 设置面板，用于保存聚联医疗 token、开关自动接力获取 PDF、打开项目主页。
 - 按 `DOI > PMID > 标题 > URL` 的优先级提取条目信息并提交查询。
 - 查询聚联医疗用户中心任务列表，匹配当前条目的查询记录。
 - 任务成功时自动下载 PDF，并作为当前 Zotero 条目的子附件导入。
-- 任务仍在人工查找中时，为条目添加 `fetching PDF` 标签；再次点击菜单时只检查已有任务，不重复提交。
+- 提交成功即添加 `fetching PDF` 标签；若首次检查时仍未完成，再次点击菜单只检查已有任务。
+- 可选自动接力：通过浏览器 Connector 或 DOI/PMID 新增的条目，在确认 Zotero 的 PDF 获取流程结束且仍无 PDF 后，才提交给聚联医疗。
 
 ## 前置条件
 
 拥有聚联医疗 [https://jlyl.jlss.vip/jss](https://jlyl.jlss.vip/jss/#/index) 的机构认证账号，可享受其文献传递等服务。
 
+## Zotero 版本要求
+
+- **安装范围：** XPI 声明的最低版本为 `6.999`，最高版本为 `10.*`。
+- **自动获取 PDF 全文：** 需要 Zotero 10.x，默认关闭。若该版本缺少原生接口，插件会跳过对应的自动获取入口，仍可右键手动获取。
+- **验证范围：** 已核对 Zotero 10.0.7 的相关源码，并在 Zotero 10.0.8 和 Chrome Zotero Connector 5.0.217 的环境中试用了浏览器保存后的自动获取。其他版本未逐一实测。
+
 ## 下载安装
 
-从 GitHub Release 下载最新版本的 `pdf-fetcher.xpi`：
+从 GitHub Releases 下载最新的安装包：
 
 [下载 pdf-fetcher.xpi](https://github.com/HiYvri/pdf-fetcher/releases/latest/download/pdf-fetcher.xpi)
 
@@ -44,14 +51,17 @@
 
 1. 在 Zotero 中选中一个普通文献条目。
 2. 右键点击条目，选择 `通过聚联医疗获取原文`。
-3. 插件会提交查询并在约 7 秒后检查聚联医疗任务列表。
+3. 插件会提交查询，添加 `fetching PDF` 标签，并在约 7 秒后检查一次聚联医疗任务列表。
 4. 如果任务已经成功，PDF 会被导入为该条目的附件。
-5. 如果任务仍在人工查找中，条目会被添加 `fetching PDF` 标签；稍后再次点击同一菜单即可继续检查结果。
+5. 如果任务仍在人工查找中，标签会保留；稍后再次点击同一菜单即可继续检查结果。
+
+在 Zotero 的 `设置 → pdf-fetcher` 勾选“自动获取PDF全文”即可开启。聚联医疗确认收到任务后，插件会显示“已提交到聚联医疗，7 秒后查询结果”，并在约 7 秒后检查一次；待查任务仍用右键继续检查。
 
 ## 本地构建
 
 ```bash
 npm install
+npm run test:unit
 npm run build
 ```
 
@@ -60,9 +70,5 @@ npm run build
 ```text
 .scaffold/build/pdf-fetcher.xpi
 ```
-
-## 当前状态
-
-当前版本已经完成 Zotero 9 beta 下的基本可用流程，包括 token 设置、任务提交、任务列表匹配、成功任务 PDF 导入，以及人工查找中标签追踪。
 
 详细接口分析记录见 [docs/network-analysis.md](docs/network-analysis.md)。

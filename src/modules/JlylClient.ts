@@ -1,5 +1,5 @@
-import { config } from "../../package.json";
 import type { ItemMetadata } from "../utils/item";
+import { tokenPref } from "../utils/preferences";
 
 export type JlylTaskRecord = {
   taskTitle: string;
@@ -126,8 +126,7 @@ export class JlylClient {
   }
 
   private static getSettings() {
-    const prefix = config.prefsPrefix;
-    const token = String(Zotero.Prefs.get(`${prefix}.token`) || "").trim();
+    const token = String(Zotero.Prefs.get(tokenPref) || "").trim();
     return { token };
   }
 

@@ -3,33 +3,41 @@
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   xmlns:html="http://www.w3.org/1999/xhtml"
   onload="Zotero.__addonInstance__.hooks.onPrefsLoad(event)"
+  style="gap: 16px; line-height: 1.5;"
 >
-  <groupbox>
-    <label><html:h2>pdf-fetcher</html:h2></label>
-    <description>聚联医疗接口地址固定为 https://api.jlss.vip。Zotero 插件不会自动继承浏览器登录状态，需要填入网站 token。</description>
-  </groupbox>
+  <vbox style="gap: 8px;">
+    <html:p style="margin: 0;">本插件向聚联医疗网站提交文献查询任务，但Zotero无法自动获取账号登录状态，需手动填写聚联医疗网站Token（登陆令牌）。</html:p>
+    <html:div><html:a id="pdf-fetcher-project" href="__homepage__">项目主页（GitHub）</html:a></html:div>
+  </vbox>
 
-  <groupbox>
-    <label value="Token 获取方法"/>
-    <description>1. 在浏览器登录聚联医疗网站。</description>
-    <description>2. 打开浏览器开发者工具，进入 Application/应用 -> Local Storage。</description>
-    <description>3. 选择 jlyl.jlss.vip 或 jlss.vip 相关站点，复制名为 token 的值。不包括两边引号，只保留数字和字母。</description>
-    <description>4. 回到这里直接粘贴到 Token 输入框，然后保存。</description>
-  </groupbox>
-
-  <groupbox>
-    <label value="Token"/>
+  <vbox style="gap: 8px;">
+    <html:h3 style="margin: 0; font-size: 1em;">Token（登录令牌）获取方法</html:h3>
+    <html:ol style="margin: 0; padding-inline-start: 1.6em; display: grid; gap: 4px;">
+      <html:li>在浏览器登录聚联医疗网站。</html:li>
+      <html:li>打开浏览器开发者工具，进入应用（Application）→ 本地存储（Local Storage）。</html:li>
+      <html:li>选择 jlyl.jlss.vip 或 jlss.vip 相关站点，复制名为 token 的值，不含两边的引号。</html:li>
+      <html:li>粘贴到下方输入框，点击“保存设置”。</html:li>
+    </html:ol>
+    <html:label for="pdf-fetcher-token" style="font-weight: 600;">Token</html:label>
     <html:input
       id="pdf-fetcher-token"
       type="text"
       preference="__prefsPrefix__.token"
-      style="width: 100%;"
+      style="width: 100%; box-sizing: border-box; margin: 0;"
     ></html:input>
 
-    <hbox style="gap: 8px; margin-top: 8px;">
+    <hbox style="gap: 8px; flex-wrap: wrap;">
       <button id="pdf-fetcher-open-site" label="打开聚联医疗网站"/>
       <button id="pdf-fetcher-save" label="保存设置"/>
       <button id="pdf-fetcher-clear-token" label="清除 Token"/>
     </hbox>
-  </groupbox>
+  </vbox>
+
+  <vbox style="gap: 8px; padding-top: 16px; border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent);">
+    <html:label style="display: flex; align-items: center; gap: 8px; font-weight: 600;">
+      <html:input id="pdf-fetcher-auto-fetch" type="checkbox" aria-describedby="pdf-fetcher-auto-fetch-help" style="margin: 0;"/>
+      自动获取PDF全文
+    </html:label>
+    <html:p id="pdf-fetcher-auto-fetch-help" style="margin: 0;">通过浏览器 Connector 或 DOI/PMID 添加文献后，若 Zotero 未取得 PDF，插件会尝试通过聚联医疗获取。提交后检查一次，人工查找中的任务仍需右键手动检查。</html:p>
+  </vbox>
 </vbox>
